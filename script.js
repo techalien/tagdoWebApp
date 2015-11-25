@@ -179,19 +179,8 @@ scotchApp.controller('TodoCtrl',function ($scope) {
 	scotchApp.controller('logoutController', function($scope,$location) {
 		//$scope.message = 'Contact us! JK. This is just a demo.';
 		var currentUser = Parse.User.current();
-	    		Parse.User.loOut($scope.username, $scope.password, {
-  				success: function(user) {
-    // Do stuff after successful login.
-    				$location.path('login');
-    				alert('logout success');
- 
-  				},
-  				error: function(user, error) {
-    // The login failed. Check error to see why.
-    				alert('logout failed');
-  				}
-			});
-    		var currentUser = Parse.User.current(); 
-
+	    Parse.User.logOut();
+    	var currentUser = Parse.User.current(); 
+    	$location.path('login');
 	});
 
