@@ -53,6 +53,98 @@
 
 	scotchApp.controller('contactController', function($scope) {
 		$scope.message = 'Contact us! JK. This is just a demo.';
+		$scope.todos = [];
+		var currentUser = Parse.User.current();
+		var todoClass = Parse.Object.extend("Todo");
+		var Query = new Parse.Query(todoClass);
+		Query.equalTo("author",currentUser); 
+		$scope.getTodos = function() {
+			Query.find({
+			success: function(results) {
+    			for (var i = 0; i < results.length; i++) {
+      				var object = results[i];
+      				alert(object.id + ' - ' + object.get('content'));
+      				console.log(object);
+      				$scope.$apply(function(){
+  						$scope.todos.push(object);
+					});
+    			}
+    			
+  			},
+  			error: function(error) {
+    			alert("Error: " + error.code + " " + error.message);
+  			}
+		});
+		}
+
+		$scope.addTodo = function() {
+			if($scope.formTodoText == "")
+				alert('Enter todo');
+			else {
+				var todo = new todoClass();
+				todo.set("content",$scope.formTodoText);
+				todo.set("Priority","MEDIUM");
+				todo.set("author",currentUser);
+				todo.save(null, {
+				  success: function(gameScore) {
+				    // Execute any logic that should take place after the object is saved.
+				    alert('New object created with objectId: ' + gameScore.id);
+				    $scope.$apply(function(){
+  						$scope.todos.push(todo);
+					});
+				  },
+				  error: function(gameScore, error) {
+				    // Execute any logic that should take place if the save fails.
+				    // error is a Parse.Error with an error code and message.
+				    alert('Failed to create new object, with error code: ' + error.message);
+				  }
+				});
+			}
+		}
+
+		$scope.delete = function(objectId) {
+			alert(objectId+ "id");
+			Query.get(objectId, {
+	  			success: function(gameScore) {
+	    			gameScore.destroy({
+	    				success: function(myObject) {
+		    				alert("Deleted");
+		    				$scope.todos.splice($scope.todos.indexOf(gameScore),1);
+		    				$scope.$apply();
+	  					},
+	  					error: function(myObject, error) {
+	    // The delete failed.
+	    // error is a Parse.Error with an error code and message.
+	  					}
+					});
+
+	  			},
+	  			error: function(object, error) {
+	    // The object was not retrieved successfully.
+	    // error is a Parse.Error with an error code and message.
+	    			alert('no object');
+	  			}
+			});
+			Query.find({
+								success: function(results) {
+					    			for (var i = 0; i < results.length; i++) {
+					      				var object = results[i];
+					      				alert(object.id + ' - ' + object.get('content'));
+					      				console.log(object);
+					      				$scope.$apply(function(){
+					  						$scope.todos.push(object);
+										});
+
+					    			}
+					    			
+					  			},
+					  			error: function(error) {
+					    			alert("Error: " + error.code + " " + error.message);
+					  			}
+							});
+
+		}
+
 	});
 
 	scotchApp.controller('loginController', function($scope,$location) {
