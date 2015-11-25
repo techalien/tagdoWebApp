@@ -63,7 +63,6 @@
 			success: function(results) {
     			for (var i = 0; i < results.length; i++) {
       				var object = results[i];
-      				alert(object.id + ' - ' + object.get('content'));
       				console.log(object);
       				$scope.$apply(function(){
   						$scope.todos.push(object);
@@ -110,8 +109,10 @@
 	    			gameScore.destroy({
 	    				success: function(myObject) {
 		    				alert("Deleted");
-		    				$scope.todos.splice($scope.todos.indexOf(gameScore),1);
-		    				$scope.$apply();
+		    				$scope.$apply(function(){
+  								$scope.getTodos();
+							});
+		    				
 	  					},
 	  					error: function(myObject, error) {
 	    // The delete failed.
