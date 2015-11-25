@@ -52,8 +52,8 @@
 	});
 
 	scotchApp.controller('contactController', function($scope) {
-		$scope.message = 'Contact us! JK. This is just a demo.';
 		$scope.todos = [];
+		$scope.formTodoText == ""
 		var currentUser = Parse.User.current();
 		var todoClass = Parse.Object.extend("Todo");
 		var Query = new Parse.Query(todoClass);
@@ -99,6 +99,7 @@
 				    alert('Failed to create new object, with error code: ' + error.message);
 				  }
 				});
+				$scope.formTodoText ="";
 			}
 		}
 
@@ -125,23 +126,7 @@
 	    			alert('no object');
 	  			}
 			});
-			Query.find({
-								success: function(results) {
-					    			for (var i = 0; i < results.length; i++) {
-					      				var object = results[i];
-					      				alert(object.id + ' - ' + object.get('content'));
-					      				console.log(object);
-					      				$scope.$apply(function(){
-					  						$scope.todos.push(object);
-										});
-
-					    			}
-					    			
-					  			},
-					  			error: function(error) {
-					    			alert("Error: " + error.code + " " + error.message);
-					  			}
-							});
+		
 
 		}
 
