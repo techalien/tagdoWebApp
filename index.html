@@ -4,16 +4,10 @@
 <html ng-app="scotchApp">
 
 <head>
-  <!-- SCROLLS -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
-
-  <!-- SPELLS -->
-  <script src="//www.parsecdn.com/js/parse-1.6.7.min.js"></script>
-  <script src="https://code.angularjs.org/1.3.11/angular.js"></script>
-    <script src="https://code.angularjs.org/1.3.11/angular-route.js"></script>
-
-  <script src="script.js"></script>
+        <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="vendor/bootstrap.min.css" />
+      <link rel="stylesheet" href="vendor/font-awesome.css" />
 
 </head>
 
@@ -36,14 +30,21 @@
   </nav>
 
   <div id="main">
-  
-    <!-- angular templating -->
-    <!-- this is where content will be injected -->
+
     <div ng-view></div>
     
   </div>
  
   
 </body>
+      <!-- SPELLS -->
+  <script src="vendor/parse-1.6.7.min.js"></script>
+  <script src="http://code.angularjs.org/1.3.11/angular.js"></script>
+    <script src="http://code.angularjs.org/1.3.11/angular-route.js"></script>
+    
+    <script src="vendor/vast-shadow_n4_all.js"></script>
+    <script src="vendor/vast-shadow_n4_all;megrim.js"></script>
+
+  <script src="script.js"></script>
   
 </html>

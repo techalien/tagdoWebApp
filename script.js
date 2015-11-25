@@ -74,12 +74,46 @@
 		};
 	});
 
+scotchApp.controller('TodoCtrl',function ($scope) {
+  
+  $scope.todos = [
+    {text:'Task 1', done:false},         
+    {text: 'Hey look here !! ', done:false}
+  ];
+  
+  $scope.getTotalTodos = function () {
+    return $scope.todos.length;
+  };
+  
+  
+  $scope.addTodo = function () {
+    $scope.todos.push({text:$scope.formTodoText, done:false});
+    $scope.formTodoText = '';
+  };
+  
+    $scope.clearCompleted = function () {
+        $scope.todos = _.filter($scope.todos, function(todo){
+            return !todo.done;
+        });
+    };
+});
+
 	scotchApp.controller('logoutController', function($scope,$location) {
 		//$scope.message = 'Contact us! JK. This is just a demo.';
 		var currentUser = Parse.User.current();
-		Parse.User.logOut();
-		var currentUser = Parse.User.current(); 
-		alert('logout'); 
-		$location.path('login');
+	    		Parse.User.loOut($scope.username, $scope.password, {
+  				success: function(user) {
+    // Do stuff after successful login.
+    				$location.path('login');
+    				alert('logout success');
+ 
+  				},
+  				error: function(user, error) {
+    // The login failed. Check error to see why.
+    				alert('logout failed');
+  				}
+			});
+    		var currentUser = Parse.User.current(); 
+
 	});
 
