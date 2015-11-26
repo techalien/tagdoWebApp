@@ -156,31 +156,29 @@
 		};
 	});
 
-scotchApp.controller('signupCtrl', function($scope, $alert, $auth) {
+scotchApp.controller('signupController', function($scope,$location) {
+    alert("please wait...");
     $scope.signup = function() {
-      $auth.signup({
-        displayName: $scope.displayName,
-        email: $scope.email,
-        password: $scope.password,
-      }).catch(function(response) {
-        if (typeof response.data.message === 'object') {
-          angular.forEach(response.data.message, function(message) {
-            $alert({
-              content: message[0],
-              animation: 'fadeZoomFadeDown',
-              type: 'info',
-              duration: 3
-            });
-          });
-        } else {
-          $alert({
-            content: response.data.message,
-            animation: 'fadeZoomFadeDown',
-            type: 'info',
-            duration: 3
-          });
-        }
-      });
+    	
+    	var user = new Parse.User();
+			user.set("username", $scope.displayName);
+			user.set("password", $scope.password);
+			user.set("email", $scope.email);
+
+			// other fields can be set just like with Parse.Object
+			
+			user.signUp(null, {
+			  success: function(user) {
+			    // Hooray! Let them use the app now.
+			    alert('Signed up. An email has been sent. Please click on the verification link.');
+			    $location.path('home');
+			  },
+			  error: function(user, error) {
+			    // Show the error message somewhere and let the user try again.
+			    alert("Error: " + error.code + " " + error.message);
+			  }
+			});
+
     };
   });
 
