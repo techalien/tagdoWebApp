@@ -26,6 +26,10 @@
 				templateUrl : 'pages/login.html',
 				controller  : 'loginController'
 			})
+        .when('/signup', {
+				templateUrl : 'pages/signup.html',
+				controller  : 'signupController'
+			})
 			.when('/logout', {
 				templateUrl : 'pages/logout.html',
 				controller  : 'logoutController'
@@ -151,6 +155,36 @@
 			});
 		};
 	});
+
+scotchApp.controller('signupCtrl', function($scope, $alert, $auth) {
+    $scope.signup = function() {
+      $auth.signup({
+        displayName: $scope.displayName,
+        email: $scope.email,
+        password: $scope.password,
+      }).catch(function(response) {
+        if (typeof response.data.message === 'object') {
+          angular.forEach(response.data.message, function(message) {
+            $alert({
+              content: message[0],
+              animation: 'fadeZoomFadeDown',
+              type: 'info',
+              duration: 3
+            });
+          });
+        } else {
+          $alert({
+            content: response.data.message,
+            animation: 'fadeZoomFadeDown',
+            type: 'info',
+            duration: 3
+          });
+        }
+      });
+    };
+  });
+
+
 
 	scotchApp.controller('logoutController', function($scope,$location) {
 		//$scope.message = 'Contact us! JK. This is just a demo.';
